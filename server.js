@@ -4,8 +4,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const app = express();
-const PORT = 3000;
-const SECRET_KEY = 'very-strong-secret-key-2026-change-in-production'; 
+const PORT = process.env.PORT || 3000;
+const SECRET_KEY = process.env.SECRET_KEY || '6da3793bbc29b85a820500fb3f019eab';
 
 app.use(cors());
 app.use(express.json());
@@ -59,6 +59,10 @@ app.post('/login', async (req, res) => {
   res.json({ token, role: user.role });
 });
 
+app.get('/healthz', (req, res) => {
+  res.status(200).send('OK');
+});
+
 app.listen(PORT, () => {
-  console.log(`Сервер запущен на http://localhost:${PORT}`);
+  console.log(`Сервер запущен на порту ${PORT}`);
 });
